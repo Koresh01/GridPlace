@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BlueFabric
   m_EditorClassIdentifier: 
   category: 0
-  tileBase: {fileID: 11400000, guid: db6af88f41c2aaf4383bab258ab16197, type: 2}
+  tileBase: {fileID: 11400000, guid: b82a4476a5b642e499b98643115ada9b, type: 2}

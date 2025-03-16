@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BrownFabric
   m_EditorClassIdentifier: 
   category: 0
-  tileBase: {fileID: 11400000, guid: 6f3ba499772f5b548a70ea28a4eaf537, type: 2}
+  tileBase: {fileID: 11400000, guid: 1c4e595e999cefd47bb6d8e9e837ab5d, type: 2}
