@@ -1,11 +1,13 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;  // Для работы с новой системой ввода Unity.
 using UnityEngine.Tilemaps;     // Для работы с тайлами.
 
 [AddComponentMenu("Custom / BuildingCreator (Строитель новых тайлов)")]
 public class BuildingCreator : Singleton<BuildingCreator>
 {
-    [Tooltip("Карта tile-ов. Которая у нас на сцене является дочерней для Grid.")]
+    [Header("Карты tile-ов. Которая у нас на сцене является дочерней для Grid:")]
+    [SerializeField] Tilemap defaultMap;
     [SerializeField] Tilemap previewMap;
 
     PlayerInput playerInput;
@@ -95,12 +97,13 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
     private void OnLeftClick(InputAction.CallbackContext ctx)
     {
-        
+        if (selectedObj != null && !EventSystem.current.IsPointerOverGameObject())
+            HandleDrawing();
     }
 
     private void OnRightClick(InputAction.CallbackContext ctx)
     {
-        
+        SelectedObj = null;
     }
 
     /// <summary>
@@ -121,6 +124,21 @@ public class BuildingCreator : Singleton<BuildingCreator>
         previewMap.SetTile(lastGridPosition, null);
         // Устанавливает текущий тайл в позицию мыши
         previewMap.SetTile(currentGridPosition, tileBase);
+    }
 
+    /// <summary>
+    /// В будущем он будет предназначен для рисования линий/квадратов и т.д.
+    /// </summary>
+    private void HandleDrawing()
+    {
+        DrawItem();
+    }
+
+    /// <summary>
+    /// Устанавливает tile фабрики на default слой нашей карты.
+    /// </summary>
+    private void DrawItem()
+    {
+        defaultMap.SetTile(currentGridPosition, tileBase);
     }
 }
