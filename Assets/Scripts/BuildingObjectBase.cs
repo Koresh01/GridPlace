@@ -13,6 +13,9 @@ public class BuildingObjectBase : ScriptableObject
     [SerializeField] Category category;
     [SerializeField] TileBase tileBase;
 
+    /// <summary>
+    /// Tile(картинка плиточки).
+    /// </summary>
     public TileBase TileBase
     {
         get
