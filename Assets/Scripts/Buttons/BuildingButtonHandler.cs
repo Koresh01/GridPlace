@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[AddComponentMenu("Custom / BuildingButtonHandler (Скрипт для обработки нажатия на кнопку выбора постройки.)")]
+[AddComponentMenu("Custom / BuildingButtonHandler (Стройка зданий.)")]
 public class BuildingButtonHandler : MonoBehaviour 
 {
     [SerializeField, Tooltip("Фабрика, которую будем спавнить.")] BuildingObjectBase fabricItem;

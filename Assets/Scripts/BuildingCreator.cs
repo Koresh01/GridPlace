@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;     // Для работы с тайлами.
 public class BuildingCreator : Singleton<BuildingCreator>
 {
     [Header("Карты tile-ов. Которая у нас на сцене является дочерней для Grid:")]
+    [SerializeField] Tilemap initialMap;    // При удалении tile построенного здания, исходный тайл берем отсюда.
     [SerializeField] Tilemap defaultMap;
     [SerializeField] Tilemap previewMap;
 
@@ -27,6 +28,9 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
     [Tooltip("Предыдущее положение курсора на сетке")]
     Vector3Int lastGridPosition;
+
+    [Tooltip("Флаг режима удаления.")]
+    private bool isDeleting = false;
 
 
     protected override void Awake()
@@ -88,6 +92,22 @@ public class BuildingCreator : Singleton<BuildingCreator>
                 UpdatePreview();
             }
         }
+
+        // Если собираемся удалять.
+        if (isDeleting)
+        {
+            // Перевод позиции мыши на экране, в мировые координаты:
+            Vector3 pos = _camera.ScreenToWorldPoint(mousePos);
+            // Узнаём какие координаты на сетке соответствуют этой позиции:
+            Vector3Int gridPos = previewMap.WorldToCell(pos);
+
+            // Двигали курсор и он выскочил в другую клетку.
+            if (gridPos != currentGridPosition)
+            {
+                lastGridPosition = currentGridPosition;
+                currentGridPosition = gridPos;
+            }
+        }
     }
 
     private void OnMouseMove(InputAction.CallbackContext ctx)
@@ -97,8 +117,13 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
     private void OnLeftClick(InputAction.CallbackContext ctx)
     {
-        if (selectedObj != null && !EventSystem.current.IsPointerOverGameObject())
-            HandleDrawing();
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            if (isDeleting)
+                HandleDeletion(); // Если включен режим удаления — удаляем
+            else if (selectedObj != null)
+                DrawItem(); ; // Если выбрана фабрика — строим
+        }
     }
 
     private void OnRightClick(InputAction.CallbackContext ctx)
@@ -127,18 +152,30 @@ public class BuildingCreator : Singleton<BuildingCreator>
     }
 
     /// <summary>
-    /// В будущем он будет предназначен для рисования линий/квадратов и т.д.
-    /// </summary>
-    private void HandleDrawing()
-    {
-        DrawItem();
-    }
-
-    /// <summary>
     /// Устанавливает tile фабрики на default слой нашей карты.
     /// </summary>
     private void DrawItem()
     {
         defaultMap.SetTile(currentGridPosition, tileBase);
     }
+
+    /// <summary>
+    /// Включает режим удаления зданий.
+    /// </summary>
+    public void StartDeleting()
+    {
+        isDeleting = true;
+        SelectedObj = null; // Сбрасываем выбор объекта для строительства
+    }
+
+    /// <summary>
+    /// Заменяет текущий тайл на тайл из initialMap.
+    /// </summary>
+    private void HandleDeletion()
+    {
+        TileBase initialTile = initialMap.GetTile(currentGridPosition);
+        defaultMap.SetTile(currentGridPosition, initialTile);
+        isDeleting = false;
+    }
+
 }
