@@ -2,24 +2,62 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [AddComponentMenu("Custom / BuildingButtonHandler (Стройка зданий.)")]
-public class BuildingButtonHandler : MonoBehaviour 
+public class BuildingButtonHandler : MonoBehaviour
 {
     [SerializeField, Tooltip("Фабрика, которую будем спавнить.")] BuildingObjectBase fabricItem;
-    Button button;
+    private Button button;
+    private Image buttonImage;
+    private Vector3 defaultScale;
 
     [Tooltip("Singleton скрипта, который обновляет тайлы. Полагается при этом на позицию мыши.")]
-    BuildingCreator buildingCreator; // оказывается singleton-ы тоже кэшируют...
+    private BuildingCreator buildingCreator;
+
+    private bool isBuildingMode = false; // Состояние режима строительства
+
+    [Header("Настройки визуального отображения")]
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color pressedColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+    [SerializeField] private float pressedScaleMultiplier = 0.9f; // Насколько уменьшается кнопка
 
     private void Awake()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(ButtonClicked);
+        buttonImage = button.GetComponent<Image>(); // Получаем Image для изменения цвета
+        defaultScale = transform.localScale; // Запоминаем исходный размер кнопки
         buildingCreator = BuildingCreator.GetInstance();
+
+        button.onClick.AddListener(ButtonClicked);
     }
 
     private void ButtonClicked()
     {
-        Debug.Log("Button was clicked: " + fabricItem.name);
-        buildingCreator.ObjectSelected(fabricItem);
+        isBuildingMode = !isBuildingMode; // Переключаем состояние
+
+        if (isBuildingMode)
+        {
+            buildingCreator.ObjectSelected(fabricItem); // Выбираем фабрику для строительства
+            ApplyPressedState();
+        }
+        else
+        {
+            buildingCreator.ObjectDeSelected(); // Отчищаем выбор фабрики
+            ResetButtonState();
+        }
+    }
+
+    private void ApplyPressedState()
+    {
+        if (buttonImage != null)
+            buttonImage.color = pressedColor; // Меняем цвет на нажатый
+
+        transform.localScale = defaultScale * pressedScaleMultiplier; // Уменьшаем размер
+    }
+
+    private void ResetButtonState()
+    {
+        if (buttonImage != null)
+            buttonImage.color = normalColor; // Возвращаем обычный цвет
+
+        transform.localScale = defaultScale; // Возвращаем размер кнопки
     }
 }

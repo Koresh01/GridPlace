@@ -253,6 +253,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricItem: {fileID: 11400000, guid: 5fd7bf579e7474b4ba5f528691ec2df2, type: 2}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  pressedColor: {r: 0, g: 1, b: 0.060104847, a: 1}
+  pressedScaleMultiplier: 0.9
 --- !u!1 &170910346
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,6 +548,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricItem: {fileID: 11400000, guid: 4bb9062e262ec494bb5e8793d30eb216, type: 2}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  pressedColor: {r: 0, g: 1, b: 0.060104847, a: 1}
+  pressedScaleMultiplier: 0.9
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,6 +995,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricItem: {fileID: 11400000, guid: de058a4da0bfa254495ffbdfeb92321b, type: 2}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  pressedColor: {r: 0, g: 1, b: 0.060104847, a: 1}
+  pressedScaleMultiplier: 0.9
 --- !u!1 &1224266113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.24056602, b: 0.24056602, a: 1}
+  m_Color: {r: 1, g: 0.1462264, b: 0.1462264, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1123,6 +1132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e79611792700744813ae2d826358e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalColor: {r: 1, g: 0.18396229, b: 0.18396229, a: 1}
+  pressedColor: {r: 0.5, g: 0.13915095, b: 0.13915095, a: 1}
+  pressedScaleMultiplier: 0.9
 --- !u!1 &1462420740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,7 +1416,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1848470954}
   m_OnClick:
     m_PersistentCalls:

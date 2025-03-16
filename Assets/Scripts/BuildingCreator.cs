@@ -99,14 +99,7 @@ public class BuildingCreator : Singleton<BuildingCreator>
             // Перевод позиции мыши на экране, в мировые координаты:
             Vector3 pos = _camera.ScreenToWorldPoint(mousePos);
             // Узнаём какие координаты на сетке соответствуют этой позиции:
-            Vector3Int gridPos = previewMap.WorldToCell(pos);
-
-            // Двигали курсор и он выскочил в другую клетку.
-            if (gridPos != currentGridPosition)
-            {
-                lastGridPosition = currentGridPosition;
-                currentGridPosition = gridPos;
-            }
+            currentGridPosition = previewMap.WorldToCell(pos);
         }
     }
 
@@ -139,6 +132,14 @@ public class BuildingCreator : Singleton<BuildingCreator>
     {
         SelectedObj = obj;
     }
+    /// <summary>
+    /// Отчищает здание для постройки.
+    /// </summary>
+    /// <param name="obj">ScriptableObject выбранной постройки.</param>
+    public void ObjectDeSelected()
+    {
+        SelectedObj = null;
+    }
 
     /// <summary>
     /// Заменяет тайл на сетке.
@@ -159,6 +160,11 @@ public class BuildingCreator : Singleton<BuildingCreator>
         defaultMap.SetTile(currentGridPosition, tileBase);
     }
 
+
+
+
+
+    #region Удаление
     /// <summary>
     /// Включает режим удаления зданий.
     /// </summary>
@@ -169,13 +175,22 @@ public class BuildingCreator : Singleton<BuildingCreator>
     }
 
     /// <summary>
+    /// Выключает режим удаления зданий.
+    /// </summary>
+    public void StopDeleting()
+    {
+        isDeleting = false;
+        SelectedObj = null; // Сбрасываем выбор объекта для строительства
+    }
+
+    /// <summary>
     /// Заменяет текущий тайл на тайл из initialMap.
     /// </summary>
     private void HandleDeletion()
     {
         TileBase initialTile = initialMap.GetTile(currentGridPosition);
         defaultMap.SetTile(currentGridPosition, initialTile);
-        isDeleting = false;
     }
+    #endregion
 
 }
